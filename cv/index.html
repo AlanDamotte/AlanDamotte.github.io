@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ELK</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="components/normalize-css/normalize.css" />
+  <link rel="stylesheet" href="components/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="components/highlightjs/styles/tomorrow.css" />
+  <link rel="stylesheet" href="css/ruban.min.css" />
+  <link rel="stylesheet" href="css/ruban-print.min.css" media="print" />
+  <style>
+    @import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:300,600);
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: 'Source Sans Pro', sans-serif;
+      font-size: 70%;
+      background: #EEE;
+      color: #434343;
+    }
+	
+	section {
+      width: 960px;
+      margin: 0 auto;
+    }
+	
+	section aside{
+	  text-align: right; 
+	  font-size: 50%;
+    }
+
+    .pagination {
+      right: 2.6em;
+    }
+
+    pre code {
+      background-color: inherit;
+    }
+
+    pre .xml .javascript {
+      opacity: 1;
+    }
+
+    #examples ul {
+      padding-left: 0;
+    }
+
+  </style>
+</head>
+
+<body>
+  <section class="no-toc">
+  <ul>
+   <h1>It's a trap !</h1>
+   <aside>... For the moment.</aside>
+   <aside><a href="http://alandamotte.github.io/" title="Logstash"><i class="fa fa-sign-out"></i></i></a></aside>
+   </ul>
+   
+  </section>
+
+  <script src="components/jquery/jquery.min.js"></script>
+  <script src="components/keymaster/keymaster.js"></script>
+  <script src="components/hammerjs/hammer.min.js"></script>
+  <script src="components/highlightjs/highlight.pack.js"></script>
+  <script src="js/ruban.min.js"></script>
+  <script>
+    function asciiRuban(current) {
+      var ruban = '';
+      for (var i = 0; i < 3; i++) {
+        if (i === current) {
+          ruban += '[| ' + 'ELK'[i] + ' |]';
+        } else {
+          ruban += '| ' + 'ELK'[i] + ' |';
+        }
+        ruban += '\n';
+      }
+      return ruban;
+    }
+
+    var timeoutId, i = 0;
+
+    $('#elk').on({
+      active: function() {
+        var $pre = $(this).find('pre');
+        timeoutId = setInterval(function() {
+          var ruban = asciiRuban(i++ % 4);
+          $pre.html(ruban);
+        }, 1000);
+      },
+      inactive: function() {
+        clearInterval(timeoutId);
+      }
+    });
+
+    $('#events').on({
+      active: function() {
+        $(this).find('h1').stop().animate({marginLeft: '2em'}, 2000);
+      },
+      inactive:function() {
+        $(this).find('h1').stop().animate({marginLeft: 0});
+      }
+    });
+
+
+    var ruban = new Ruban({
+      pagination: true
+    });
+  </script>
+</body>
+</html>
